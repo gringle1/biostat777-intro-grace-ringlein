@@ -140,7 +140,7 @@ div.csl-indent {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+ <span class="menu-text">About me</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./example.html" rel="" target="" aria-current="page">
@@ -493,16 +493,13 @@ Caution
 <span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>Wave, <span class="at">y=</span>mean,<span class="at">x=</span>Weighting_mean)) <span class="sc">+</span> </span>
 <span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">colour=</span>Wave,<span class="at">ymin=</span>(mean<span class="fl">-1.96</span><span class="sc">*</span>se),<span class="at">ymax=</span>(mean <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>se),</span>
 <span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x=</span>Weighting_mean),<span class="at">width=</span>.<span class="dv">05</span>) <span class="sc">+</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Financial worry"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Financial worry"</span>) <span class="sc">+</span> </span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Figure 2. Overall change in financial worry score"</span>, </span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"September 2019 and April 2020"</span>,</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption=</span><span class="fu">str_wrap</span>(<span class="st">"Average (95% CI) financial worry score (composite of worries about debt, bills, cost of health care, and being able to save enough for retirement) in Wave 54 (September 2019) and Wave 65 (April 2020) in American Trends Panel data, with and without survey weighting."</span>))  <span class="sc">+</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="example_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Figure 2. Overall change in financial worry score"</span>, </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"September 2019 and April 2020"</span>,</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption=</span><span class="fu">str_wrap</span>(<span class="st">"Average (95% CI) financial worry score (composite of worries about debt, bills, cost of health care, and being able to save enough for retirement) in Wave 54 (September 2019) and Wave 65 (April 2020) in American Trends Panel data, with and without survey weighting."</span>))  <span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>NULL</code></pre>
 </div>
 </div>
 </section>
@@ -510,18 +507,18 @@ Caution
 <h3 class="anchored" data-anchor-id="by-income-or-job-loss-group">By income or job loss group</h3>
 <p>Next we plot weighted average financial worry by income or job loss group. We see that while weighted average worry tends to be higher in the income or job loss group, both groups had a decrease in composite financial worry score.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>long <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Wave,income_loss) <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">weighted.mean</span>(WORRY_int,WEIGHT_W65),</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">se=</span><span class="fu">sd</span>(WORRY_int,<span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>())) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave, <span class="at">y=</span>mean)) <span class="sc">+</span> </span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave, <span class="at">y=</span>mean,<span class="at">linetype=</span>income_loss,<span class="at">group=</span>income_loss)) <span class="sc">+</span> </span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave,<span class="at">ymin=</span>(mean<span class="fl">-1.96</span><span class="sc">*</span>se),<span class="at">ymax=</span>(mean <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>se)),<span class="at">width=</span>.<span class="dv">05</span>) <span class="sc">+</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">linetype=</span><span class="st">"Income or job loss"</span>,</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">title=</span><span class="st">"Figure 3. Financial worry score by income or job loss group"</span>,</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"September 2019 and April 2020"</span>,</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption=</span><span class="fu">str_wrap</span>(<span class="st">"Average (95% CI) financial worry score (composite of worries about debt, bills, cost of health care, and being able to save enough for retirement) in Wave 54 (September 2019) and Wave 65 (April 2020) in American Trends Panel data, with survey weighting. Income or job loss due to teh COVID-19 pandemic was reported in April 2020."</span>)) <span class="sc">+</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>long <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Wave,income_loss) <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">weighted.mean</span>(WORRY_int,WEIGHT_W65),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">se=</span><span class="fu">sd</span>(WORRY_int,<span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>())) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave, <span class="at">y=</span>mean)) <span class="sc">+</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave, <span class="at">y=</span>mean,<span class="at">linetype=</span>income_loss,<span class="at">group=</span>income_loss)) <span class="sc">+</span> </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave,<span class="at">ymin=</span>(mean<span class="fl">-1.96</span><span class="sc">*</span>se),<span class="at">ymax=</span>(mean <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>se)),<span class="at">width=</span>.<span class="dv">05</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">linetype=</span><span class="st">"Income or job loss"</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">title=</span><span class="st">"Figure 3. Financial worry score by income or job loss group"</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"September 2019 and April 2020"</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption=</span><span class="fu">str_wrap</span>(<span class="st">"Average (95% CI) financial worry score (composite of worries about debt, bills, cost of health care, and being able to save enough for retirement) in Wave 54 (September 2019) and Wave 65 (April 2020) in American Trends Panel data, with survey weighting. Income or job loss due to teh COVID-19 pandemic was reported in April 2020."</span>)) <span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="example_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -531,19 +528,19 @@ Caution
 <h3 class="anchored" data-anchor-id="and-by-worry-type">And by worry type</h3>
 <p>Financially, we disaggregate by worry type. Here we see that worry about bills was higher in April 2020 than in September 2019 for those who experienced income or job loss by April 2020, but that all other categories of worry decreased.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>long <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Wave,Q,income_loss) <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">weighted.mean</span>(WORRY_int,WEIGHT_W65),</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">se=</span><span class="fu">sd</span>(WORRY_int,<span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>())) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave, <span class="at">y=</span>mean,<span class="at">colour=</span>Q)) <span class="sc">+</span> </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave, <span class="at">y=</span>mean,<span class="at">colour=</span>Q,<span class="at">linetype=</span>income_loss,<span class="at">group=</span><span class="fu">interaction</span>(income_loss,Q))) <span class="sc">+</span> </span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave,<span class="at">ymin=</span>(mean<span class="fl">-1.96</span><span class="sc">*</span>se),<span class="at">ymax=</span>(mean <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>se),<span class="at">colour=</span>Q),<span class="at">width=</span>.<span class="dv">05</span>)<span class="sc">+</span> <span class="fu">facet_wrap</span>(.<span class="sc">~</span>Q)  <span class="sc">+</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_discrete</span>(<span class="at">name=</span><span class="st">"Worry type"</span>) <span class="sc">+</span> </span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">linetype=</span><span class="st">"Income or job loss"</span>,</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title=</span><span class="st">"Figure 4. Financial worry subscores by income or job loss group"</span>,</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"September 2019 and April 2020"</span>,</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption=</span><span class="fu">str_wrap</span>(<span class="st">"Average (95% CI) financial worry score by category in Wave 54 (September 2019) and Wave 65 (April 2020) in American Trends Panel data, with survey weighting. Income or job loss due to the COVID-19 pandemic was reported in April 2020."</span>)) <span class="sc">+</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>long <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Wave,Q,income_loss) <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">weighted.mean</span>(WORRY_int,WEIGHT_W65),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">se=</span><span class="fu">sd</span>(WORRY_int,<span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>())) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave, <span class="at">y=</span>mean,<span class="at">colour=</span>Q)) <span class="sc">+</span> </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave, <span class="at">y=</span>mean,<span class="at">colour=</span>Q,<span class="at">linetype=</span>income_loss,<span class="at">group=</span><span class="fu">interaction</span>(income_loss,Q))) <span class="sc">+</span> </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">x=</span>Wave,<span class="at">ymin=</span>(mean<span class="fl">-1.96</span><span class="sc">*</span>se),<span class="at">ymax=</span>(mean <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>se),<span class="at">colour=</span>Q),<span class="at">width=</span>.<span class="dv">05</span>)<span class="sc">+</span> <span class="fu">facet_wrap</span>(.<span class="sc">~</span>Q)  <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_discrete</span>(<span class="at">name=</span><span class="st">"Worry type"</span>) <span class="sc">+</span> </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">linetype=</span><span class="st">"Income or job loss"</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title=</span><span class="st">"Figure 4. Financial worry subscores by income or job loss group"</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"September 2019 and April 2020"</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption=</span><span class="fu">str_wrap</span>(<span class="st">"Average (95% CI) financial worry score by category in Wave 54 (September 2019) and Wave 65 (April 2020) in American Trends Panel data, with survey weighting. Income or job loss due to the COVID-19 pandemic was reported in April 2020."</span>)) <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="example_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -568,7 +565,6 @@ Caution
 <section id="plotting-functions-used" class="level3">
 <h3 class="anchored" data-anchor-id="plotting-functions-used">Plotting functions used:</h3>
 <ul>
-<li><p>geom_bar</p></li>
 <li><p>geom_point</p></li>
 <li><p>geom_errorbar</p></li>
 <li><p>geom_line</p></li>
