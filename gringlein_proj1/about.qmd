@@ -1,6 +1,0 @@
----
-title: "About"
----
-## About me
-
-I am originally from Lancaster, PA and attended the University of Pennsylvania from 2016-2020, where I received my BA and MS in Physics and Astronomy. After graduating, I became a  Postbaccalaureate research assistant in the Section on Development and Affective Neuroscience in the National Institute of Mental Health. In 2022, I started my PhD in Biostatistics at the Johns Hopkins Bloomberg School of Public Health and I am currently working on projects related to causal inference, algorithmic fairness, and mental health. 
